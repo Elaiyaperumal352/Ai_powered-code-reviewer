@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Code Reviewer</title>
+</head>
+<body style="background:#1e3c72;color:white;text-align:center;padding:40px;">
+
+<h1>🤖 AI Code Reviewer</h1>
+
+<form method="POST">
+    <textarea name="code" rows="15" cols="80"
+    placeholder="Paste your Python code here..."></textarea>
+    <br><br>
+    <button type="submit">Analyze Code</button>
+</form>
+
+{% if report %}
+
+<hr>
+
+<h2>Quality Score: {{ report.quality_score }}</h2>
+
+<h3>Metrics</h3>
+<p>Maintainability Index: {{ report.metrics.maintainability_index }}</p>
+<p>Average Complexity: {{ report.metrics.average_complexity }}</p>
+
+<h3>Issues</h3>
+<ul>
+{% for issue in report.issues %}
+    <li>
+        [{{ issue.severity }}] {{ issue.message }}
+        (Line {{ issue.lineno }})
+    </li>
+{% endfor %}
+</ul>
+
+<h3>AI Suggestions</h3>
+<ul>
+{% for suggestion in report.suggestions %}
+    <li>{{ suggestion.suggestion }}</li>
+{% endfor %}
+</ul>
+
+{% endif %}
+
+</body>
+</html>
